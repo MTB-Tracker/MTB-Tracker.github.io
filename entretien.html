@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>VTT Tracker — Entretien</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <h1>VTT Tracker 🚵</h1>
+    <nav class="nav">
+      <a href="index.html">Sorties</a>
+      <a href="suspension.html">Suspension</a>
+      <a href="entretien.html" class="active">Entretien</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <div class="form-card">
+      <h2>Ajouter une pièce</h2>
+
+      <div class="form-group">
+        <label for="pieceNom">Nom de la pièce</label>
+        <input id="pieceNom" type="text" placeholder="ex: Plaquettes Magura MT5">
+      </div>
+
+      <div class="form-group">
+        <label for="pieceCategorie">Catégorie</label>
+        <select id="pieceCategorie">
+          <option>Freins</option>
+          <option>Suspension</option>
+          <option>Transmission</option>
+          <option>Roues / Pneus</option>
+          <option>Cockpit</option>
+          <option>Autre</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="pieceFrequence">Fréquence d'entretien</label>
+        <select id="pieceFrequence">
+          <option>Avant chaque ride</option>
+          <option>Toutes les 2 semaines</option>
+          <option>Tous les mois</option>
+          <option>Tous les 3 mois</option>
+          <option>Tous les 6 mois</option>
+          <option>Annuel</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="pieceDate">Date du dernier entretien</label>
+        <input id="pieceDate" type="date">
+      </div>
+
+      <div class="form-group">
+        <label for="pieceNotes">Notes</label>
+        <input id="pieceNotes" type="text" placeholder="Marque, référence, observations...">
+      </div>
+
+      <button onclick="ajouterPiece()">Ajouter</button>
+    </div>
+
+    <ul id="pieceList"></ul>
+
+  </main>
+
+  <footer class="footer">
+    <p>Made for riders ⛰️</p>
+  </footer>
+
+  <script src="entretien.js"></script>
+</body>
+</html>

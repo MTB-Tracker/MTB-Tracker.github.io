@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>VTT Tracker — Suspension</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <h1>VTT Tracker 🚵</h1>
+    <nav class="nav">
+      <a href="index.html">Sorties</a>
+      <a href="suspension.html">Suspension</a>
+      <a href="entretien.html">Entretien</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <div class="form-card">
+      <h2>Fourche</h2>
+
+      <div class="form-group">
+        <label for="fModele">Modèle</label>
+        <select id="fModele">
+  <option value="">-- Choisir --</option>
+  <optgroup label="RockShox">
+    <option>RockShox ZEB Ultimate</option>
+    <option>RockShox ZEB Select+</option>
+    <option>RockShox ZEB Select</option>
+    <option>RockShox Lyrik Ultimate</option>
+    <option>RockShox Lyrik Select+</option>
+    <option>RockShox Lyrik Select</option>
+    <option>RockShox Pike Ultimate</option>
+    <option>RockShox Pike Select+</option>
+    <option>RockShox Pike Select</option>
+    <option>RockShox Psylo Gold Ultimate</option>
+    <option>RockShox Psylo Gold Select+</option>
+    <option>RockShox Domain Gold RC</option>
+    <option>RockShox Domain Silver TK</option>
+    <option>RockShox Yari RC</option>
+    <option>RockShox Revelation RC</option>
+    <option>RockShox BoXXer Ultimate</option>
+    <option>RockShox BoXXer Select+</option>
+    <option>RockShox BoXXer Select</option>
+    <option>RockShox SID Ultimate</option>
+    <option>RockShox SID Select+</option>
+  </optgroup>
+  <optgroup label="Fox">
+    <option>Fox 40 Factory</option>
+    <option>Fox 40 Performance Elite</option>
+    <option>Fox 38 Factory</option>
+    <option>Fox 38 Performance Elite</option>
+    <option>Fox 38 Performance</option>
+    <option>Fox 36 Factory</option>
+    <option>Fox 36 Performance Elite</option>
+    <option>Fox 36 Performance</option>
+    <option>Fox 34 Factory</option>
+    <option>Fox 34 Performance Elite</option>
+    <option>Fox 34 Performance</option>
+    <option>Fox 32 Factory</option>
+    <option>Fox 32 Performance</option>
+  </optgroup>
+  <optgroup label="Öhlins">
+    <option>Öhlins RXF 38 m.2</option>
+    <option>Öhlins RXF 36 m.2</option>
+    <option>Öhlins RXF 34 m.2</option>
+    <option>Öhlins DH38</option>
+  </optgroup>
+  <optgroup label="Manitou">
+    <option>Manitou Mezzer Pro</option>
+    <option>Manitou Mezzer Expert</option>
+    <option>Manitou Dorado Expert</option>
+    <option>Manitou Dorado Pro</option>
+  </optgroup>
+  <optgroup label="DVO">
+    <option>DVO Diamond D1</option>
+    <option>DVO Beryl D1</option>
+    <option>DVO Onyx D1</option>
+  </optgroup>
+  <optgroup label="Marzocchi">
+    <option>Marzocchi Bomber Z1</option>
+    <option>Marzocchi Bomber Z2</option>
+    <option>Marzocchi Bomber CR</option>
+  </optgroup>
+  <optgroup label="Formula">
+    <option>Formula Selva R</option>
+    <option>Formula Selva S</option>
+    <option>Formula Nero</option>
+  </optgroup>
+  <optgroup label="SR Suntour">
+    <option>SR Suntour Durolux R2C2</option>
+    <option>SR Suntour Durolux Boost</option>
+    <option>SR Suntour Zeron R2C2</option>
+  </optgroup>
+  <option value="autre">Autre (préciser dans notes)</option>
+</select>
+      </div>
+
+      <div class="form-group">
+        <label for="fSag">SAG (%)</label>
+        <input id="fSag" type="number" placeholder="ex: 25">
+      </div>
+
+      <div class="form-group">
+        <label for="fRebond">Rebond (clics)</label>
+        <input id="fRebond" type="number" placeholder="ex: -17">
+      </div>
+
+      <div class="form-group">
+        <label for="fCompression">Compression (clics)</label>
+        <input id="fCompression" type="number" placeholder="ex: -10">
+      </div>
+
+      <div class="form-group">
+        <label for="fPression">Pression (PSI)</label>
+        <input id="fPression" type="number" placeholder="ex: 70">
+      </div>
+
+      <div class="form-group">
+        <label for="fNotes">Notes</label>
+        <input id="fNotes" type="text" placeholder="Comportement, sensations...">
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2>Amortisseur</h2>
+
+      <div class="form-group">
+        <label for="aModele">Modèle</label>
+        <select id="aModele">
+  <option value="">-- Choisir --</option>
+  <optgroup label="RockShox">
+    <option>RockShox Super Deluxe Ultimate RC2T</option>
+    <option>RockShox Super Deluxe Ultimate RCT</option>
+    <option>RockShox Super Deluxe Select+</option>
+    <option>RockShox Super Deluxe Select</option>
+    <option>RockShox Deluxe Select+</option>
+    <option>RockShox Deluxe Select</option>
+    <option>RockShox Vivid Ultimate RC2</option>
+    <option>RockShox Vivid Select+</option>
+    <option>RockShox Vivid Coil Ultimate</option>
+    <option>RockShox Vivid Coil Select+</option>
+    <option>RockShox Monarch Plus RC3</option>
+    <option>RockShox SIDLuxe Ultimate</option>
+    <option>RockShox SIDLuxe Select+</option>
+  </optgroup>
+  <optgroup label="Fox">
+    <option>Fox DHX2 Factory</option>
+    <option>Fox DHX2 Performance Elite</option>
+    <option>Fox DHX Factory (coil)</option>
+    <option>Fox Float X Factory</option>
+    <option>Fox Float X Performance Elite</option>
+    <option>Fox Float X Performance</option>
+    <option>Fox Float DPS Factory</option>
+    <option>Fox Float DPS Performance Elite</option>
+    <option>Fox Float DPS Performance</option>
+  </optgroup>
+  <optgroup label="Öhlins">
+    <option>Öhlins TTX22M Twin Tube</option>
+    <option>Öhlins STX22 Single Tube</option>
+    <option>Öhlins TTX Air</option>
+    <option>Öhlins DHX coil</option>
+  </optgroup>
+  <optgroup label="EXT">
+    <option>EXT Era V2</option>
+    <option>EXT Arma V2</option>
+    <option>EXT Storia V3</option>
+  </optgroup>
+  <optgroup label="Cane Creek">
+    <option>Cane Creek DB Coil IL</option>
+    <option>Cane Creek DB Air IL</option>
+    <option>Cane Creek DB CS</option>
+    <option>Cane Creek Double Barrel Inline</option>
+  </optgroup>
+  <optgroup label="DVO">
+    <option>DVO Topaz T3</option>
+    <option>DVO Jade X</option>
+  </optgroup>
+  <optgroup label="BOS">
+    <option>BOS Deville</option>
+    <option>BOS Stoy</option>
+    <option>BOS Idylle</option>
+  </optgroup>
+  <optgroup label="Marzocchi">
+    <option>Marzocchi Bomber CR</option>
+    <option>Marzocchi Bomber CR Coil</option>
+  </optgroup>
+  <optgroup label="Formula">
+    <option>Formula Mod</option>
+    <option>Formula Coil</option>
+  </optgroup>
+  <option value="autre">Autre (préciser dans notes)</option>
+</select>
+      </div>
+
+      <div class="form-group">
+        <label for="aSag">SAG (%)</label>
+        <input id="aSag" type="number" placeholder="ex: 30">
+      </div>
+
+      <div class="form-group">
+        <label for="aRebond">Rebond (clics)</label>
+        <input id="aRebond" type="number" placeholder="ex: -8">
+      </div>
+
+      <div class="form-group">
+        <label for="aCompression">Compression (clics)</label>
+        <input id="aCompression" type="number" placeholder="ex: -5">
+      </div>
+
+      <div class="form-group">
+        <label for="aPression">Pression (PSI)</label>
+        <input id="aPression" type="number" placeholder="ex: 180">
+      </div>
+
+      <div class="form-group">
+        <label for="aNotes">Notes</label>
+        <input id="aNotes" type="text" placeholder="Comportement, sensations...">
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2>Sauvegarder ce réglage</h2>
+      <div class="form-group">
+        <label for="setupNom">Nom du réglage</label>
+        <input id="setupNom" type="text" placeholder="ex: Métabief DH humide">
+      </div>
+      <button onclick="sauvegarderSetup()">Sauvegarder</button>
+    </div>
+
+    <ul id="setupList"></ul>
+
+  </main>
+
+  <footer class="footer">
+    <p>Made for riders ⛰️</p>
+  </footer>
+
+  <script src="suspension.js"></script>
+</body>
+</html>

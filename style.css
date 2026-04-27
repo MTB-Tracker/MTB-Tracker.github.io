@@ -1,0 +1,262 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1a2e0a;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background-color: #2c1a0e;
+  color: white;
+  padding: 20px;
+}
+
+.container {
+  margin-top: 40px;
+  flex: 1;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+li {
+  background: white;
+  margin: 10px auto;
+  padding: 10px;
+  width: 360px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.footer {
+  padding: 20px;
+  background-color: #2c1a0e;
+  color: white;
+}
+
+.form-card {
+  background-color: #2a5010;
+  border: 1px solid #4a8a1a;
+  border-radius: 8px;
+  padding: 24px;
+  width: 360px;
+  margin: 30px auto;
+  text-align: left;
+}
+.form-card h2 {
+  color: white;
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #111;
+  color: white;
+  font-size: 14px;
+}
+
+.ride-info {
+  text-align: left;
+}
+
+.ride-lieu {
+  display: block;
+  font-weight: bold;
+  color: #111;
+  font-size: 15px;
+}
+
+.ride-type {
+  display: inline-block;
+  margin-top: 4px;
+  background-color: #2e6b0a;
+  color: white;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.ride-detail {
+  display: block;
+  font-size: 13px;
+  color: #555;
+  margin-top: 2px;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 8px;
+}
+.nav {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.nav a {
+  color: #aaa;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.nav a:hover {
+  color: white;
+}
+
+.nav a.active {
+  color: white;
+  background-color: #4a8a1a;
+}
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 20px auto;
+  padding: 16px 24px;
+  background-color: #1e3a0a;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-val {
+  font-size: 24px;
+  font-weight: bold;
+  color: #7ec850;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 2px;
+}
+.piece-item {
+  display: flex;
+  align-items: flex-start;
+  width: 400px;
+}
+
+.barre-container {
+  width: 100%;
+  height: 6px;
+  background-color: #333;
+  border-radius: 3px;
+  margin-top: 8px;
+}
+
+.barre-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.statut-ok { background-color: #4a8a1a; color: #7ec850; }
+.statut-attention { background-color: #a67c00; color: #f0c030; }
+.statut-danger { background-color: #8a1a1a; color: #f05030; }
+
+.statut-texte {
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 4px;
+  display: block;
+}
+
+.btn-fait {
+  padding: 4px 10px;
+  font-size: 12px;
+  background-color: #2e6b0a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-fait:hover {
+  background-color: #4a8a1a;
+}
+button {
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+  background-color: #4a8a1a;
+  color: white;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+li {
+  animation: apparition 0.3s ease;
+}
+
+@keyframes apparition {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav a {
+  transition: background-color 0.2s, color 0.2s;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #7ec850;
+  box-shadow: 0 0 0 2px rgba(126, 200, 80, 0.2);
+}
+
+.form-card {
+  transition: transform 0.2s;
+}
+
+.form-card:hover {
+  transform: translateY(-2px);
+}
