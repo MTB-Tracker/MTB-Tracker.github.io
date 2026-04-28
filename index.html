@@ -19,65 +19,64 @@
   </header>
 
   <main class="container">
-    <div class="stats-bar">
-      <div class="stat-item">
-        <span class="stat-val" id="statNb">0</span>
-        <span class="stat-label">sorties</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-val" id="statDeniv">0 m</span>
-        <span class="stat-label">dénivelé cumulé</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-val" id="statDerniere">—</span>
-        <span class="stat-label">dernière sortie</span>
-      </div>
+  <div class="stats-bar" style="margin-bottom:20px">
+    <div class="stat-item">
+      <span class="stat-val" id="statNb">0</span>
+      <span class="stat-label">sorties</span>
     </div>
-
-  <div class="form-card">
-    <h2>Nouvelle sortie</h2>
-
-    <div class="form-group">
-      <label for="rideInput">Lieu / Bike park</label>
-      <input id="rideInput" type="text" placeholder="ex: Métabief">
+    <div class="stat-item">
+      <span class="stat-val" id="statDeniv">0 m</span>
+      <span class="stat-label">dénivelé cumulé</span>
     </div>
-
-    <div class="form-group">
-      <label for="rideDate">Date</label>
-      <input id="rideDate" type="date">
+    <div class="stat-item">
+      <span class="stat-val" id="statDerniere">—</span>
+      <span class="stat-label">dernière sortie</span>
     </div>
-
-    <div class="form-group">
-      <label for="rideType">Type de sortie</label>
-      <select id="rideType">
-        <option value="DH">DH / Bike park</option>
-        <option value="Enduro">Enduro</option>
-        <option value="Compétition">Compétition</option>
-        <option value="XC">XC</option>
-        <option value="Training">Training</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="rideDeniv">Dénivelé (m)</label>
-      <input id="rideDeniv" type="number" placeholder="ex: 800">
-    </div>
-
-    <div class="form-group">
-      <label for="rideNotes">Notes</label>
-      <input id="rideNotes" type="text" placeholder="Conditions, sensations...">
-    </div>
-
-    <button onclick="addRide()">Ajouter la sortie</button>
   </div>
 
-  <ul id="rideList"></ul>
+  <div class="grid-layout">
+    <div class="grid-col">
+      <div class="form-card">
+        <h2>Nouvelle sortie</h2>
+        <div class="form-group">
+          <label for="rideInput">Lieu / Bike park</label>
+          <input id="rideInput" type="text" placeholder="ex: Métabief">
+        </div>
+        <div class="form-group">
+          <label for="rideDate">Date</label>
+          <input id="rideDate" type="date">
+        </div>
+        <div class="form-group">
+          <label for="rideType">Type de sortie</label>
+          <select id="rideType">
+            <option value="DH">DH / Bike park</option>
+            <option value="Enduro">Enduro</option>
+            <option value="Compétition">Compétition</option>
+            <option value="XC">XC</option>
+            <option value="Training">Training</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="rideDeniv">Dénivelé (m)</label>
+          <input id="rideDeniv" type="number" placeholder="ex: 800">
+        </div>
+        <div class="form-group">
+          <label for="rideNotes">Notes</label>
+          <input id="rideNotes" type="text" placeholder="Conditions, sensations...">
+        </div>
+        <button onclick="addRide()">Ajouter la sortie</button>
+      </div>
+    </div>
 
+    <div class="grid-col">
+      <ul id="rideList"></ul>
+    </div>
+  </div>
 </main>
   <footer class="footer">
     <p>Made for riders ⛰️</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

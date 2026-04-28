@@ -1,84 +1,104 @@
-console.log("Script chargé ✓");
+import { supabase } from './supabase.js'
 
-let rides = [];
+async function charger() {
+  const { data, error } = await supabase
+    .from('sorties')
+    .select('*')
+    .order('id', { ascending: false })
 
-function sauvegarder() {
-  localStorage.setItem("rides", JSON.stringify(rides));
-}
-
-function mettreAJourStats() {
-  const nb = rides.length;
-  const denivTotal = rides.reduce(function(total, ride) {
-    return total + (parseFloat(ride.deniv) || 0);
-  }, 0);
-
-  const derniere = rides.length > 0 ? rides[rides.length - 1].lieu : "—";
-
-  document.getElementById("statNb").textContent = nb;
-  document.getElementById("statDeniv").textContent = denivTotal + " m";
-  document.getElementById("statDerniere").textContent = derniere;
-}
-
-function charger() {
-  const data = localStorage.getItem("rides");
-  if (data) {
-    rides = JSON.parse(data);
-    rides.forEach(function(ride) {
-      afficherRide(ride);
-    });
+  if (error) {
+    console.error('Erreur chargement:', error)
+    return
   }
-  mettreAJourStats();
+
+  data.forEach(function(ride) {
+    afficherRide(ride)
+  })
+
+  mettreAJourStats(data)
 }
 
-function addRide() {
-  const lieu = document.getElementById("rideInput").value.trim();
-  const date = document.getElementById("rideDate").value;
-  const type = document.getElementById("rideType").value;
-  const deniv = document.getElementById("rideDeniv").value;
-  const notes = document.getElementById("rideNotes").value.trim();
+async function addRide() {
+  const lieu = document.getElementById('rideInput').value.trim()
+  const date = document.getElementById('rideDate').value
+  const type = document.getElementById('rideType').value
+  const deniv = document.getElementById('rideDeniv').value
+  const notes = document.getElementById('rideNotes').value.trim()
 
   if (!lieu) {
-    alert("Indique au moins un lieu !");
-    return;
+    alert('Indique au moins un lieu !')
+    return
   }
 
-  const ride = { lieu, date, type, deniv, notes };
-  rides.push(ride);
-  sauvegarder();
-  afficherRide(ride);
-  mettreAJourStats();
+  const { data, error } = await supabase
+    .from('sorties')
+    .insert([{ lieu, date, type, deniv, notes }])
+    .select()
 
-  document.getElementById("rideInput").value = "";
-  document.getElementById("rideDate").value = "";
-  document.getElementById("rideDeniv").value = "";
-  document.getElementById("rideNotes").value = "";
+  if (error) {
+    console.error('Erreur ajout:', error)
+    return
+  }
+
+  afficherRide(data[0])
+  mettreAJourStats(null)
+
+  document.getElementById('rideInput').value = ''
+  document.getElementById('rideDate').value = ''
+  document.getElementById('rideDeniv').value = ''
+  document.getElementById('rideNotes').value = ''
+}
+
+async function supprimerRide(btn, id) {
+  const { error } = await supabase
+    .from('sorties')
+    .delete()
+    .eq('id', id)
+
+  if (error) {
+    console.error('Erreur suppression:', error)
+    return
+  }
+
+  btn.parentElement.remove()
+  mettreAJourStats(null)
 }
 
 function afficherRide(ride) {
-  const list = document.getElementById("rideList");
-
-  const li = document.createElement("li");
+  const list = document.getElementById('rideList')
+  const li = document.createElement('li')
   li.innerHTML = `
     <div class="ride-info">
       <span class="ride-lieu">${ride.lieu}</span>
       <span class="ride-type">${ride.type}</span>
-      <span class="ride-detail">${ride.date ? ride.date : "Date non renseignée"}</span>
-      <span class="ride-detail">${ride.deniv ? ride.deniv + " m D+" : ""}</span>
+      <span class="ride-detail">${ride.date ? ride.date : 'Date non renseignée'}</span>
+      <span class="ride-detail">${ride.deniv ? ride.deniv + ' m D+' : ''}</span>
       <span class="ride-detail">${ride.notes}</span>
     </div>
-    <button class="btn-delete" onclick="supprimerRide(this)">❌</button>
-  `;
-
-  list.appendChild(li);
+    <button class="btn-delete" onclick="supprimerRide(this, '${ride.id}')">❌</button>
+  `
+  list.appendChild(li)
 }
 
-function supprimerRide(btn) {
-  const li = btn.parentElement;
-  const index = Array.from(document.getElementById("rideList").children).indexOf(li);
-  rides.splice(index, 1);
-  sauvegarder();
-  mettreAJourStats();
-  li.remove();
+async function mettreAJourStats() {
+  const { data, error } = await supabase
+    .from('sorties')
+    .select('*')
+
+  if (error) return
+
+  const nb = data.length
+  const denivTotal = data.reduce(function(total, ride) {
+    return total + (parseFloat(ride.deniv) || 0)
+  }, 0)
+  const derniere = data.length > 0 ? data[0].lieu : '—'
+
+  document.getElementById('statNb').textContent = nb
+  document.getElementById('statDeniv').textContent = denivTotal + ' m'
+  document.getElementById('statDerniere').textContent = derniere
 }
 
-charger();
+window.addRide = addRide
+window.supprimerRide = supprimerRide
+
+charger()
