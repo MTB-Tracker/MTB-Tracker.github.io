@@ -260,3 +260,41 @@ select:focus {
 .form-card:hover {
   transform: translateY(-2px);
 }
+@media (max-width: 600px) {
+  .form-card {
+    width: 95%;
+    margin: 16px auto;
+    padding: 16px;
+  }
+
+  li {
+    width: 95%;
+  }
+
+  .piece-item {
+    width: 95%;
+  }
+
+  .stats-bar {
+    gap: 16px;
+    padding: 12px 16px;
+    width: 90%;
+  }
+
+  .stat-val {
+    font-size: 18px;
+  }
+
+  .header h1 {
+    font-size: 18px;
+  }
+
+  .nav {
+    gap: 10px;
+  }
+
+  .nav a {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
