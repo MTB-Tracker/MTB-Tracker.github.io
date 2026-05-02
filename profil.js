@@ -78,9 +78,9 @@ async function charger() {
     .from('profil')
     .select('*')
     .eq('user_id', USER_ID)
-    .single()
+    .maybeSingle()
 
-  if (!error && data) {
+  if (data) {
     if (data.nom) document.getElementById('profilNom').value = data.nom
     if (data.age) document.getElementById('profilAge').value = data.age
     if (data.poids) document.getElementById('profilPoids').value = data.poids

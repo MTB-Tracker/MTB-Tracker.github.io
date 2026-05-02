@@ -1,25 +1,26 @@
 import { supabase } from './supabase.js'
+
 const { data: { session } } = await supabase.auth.getSession()
 if (!session) {
-  window.location.href = 'accueil.html'
+  window.location.replace('accueil.html')
+  throw new Error('Non connecté')
 }
+const USER_ID = session.user.id
+
 async function ajouterPiece() {
   const nom = document.getElementById('pieceNom').value.trim()
   if (!nom) { alert('Indique le nom de la pièce !'); return }
 
   const piece = {
     nom,
+    user_id: USER_ID,
     categorie: document.getElementById('pieceCategorie').value,
     frequence: document.getElementById('pieceFrequence').value,
     date: document.getElementById('pieceDate').value,
     notes: document.getElementById('pieceNotes').value.trim()
   }
 
-  const { data, error } = await supabase
-    .from('pieces')
-    .insert([piece])
-    .select()
-
+  const { data, error } = await supabase.from('pieces').insert([piece]).select()
   if (error) { console.error('Erreur ajout:', error); return }
 
   afficherPiece(data[0], data[0].id)
@@ -36,12 +37,9 @@ function calculerStatut(piece) {
   const joursEcoules = Math.floor((aujourd_hui - derniere) / (1000 * 60 * 60 * 24))
 
   const limites = {
-    'Avant chaque ride': 3,
-    'Toutes les 2 semaines': 14,
-    'Tous les mois': 30,
-    'Tous les 3 mois': 90,
-    'Tous les 6 mois': 180,
-    'Annuel': 365
+    'Avant chaque ride': 3, 'Toutes les 2 semaines': 14,
+    'Tous les mois': 30, 'Tous les 3 mois': 90,
+    'Tous les 6 mois': 180, 'Annuel': 365
   }
 
   const limite = limites[piece.frequence] || 30
@@ -84,24 +82,14 @@ function afficherPiece(piece, id) {
 
 async function marquerFait(btn, id) {
   const aujourd_hui = new Date().toISOString().slice(0, 10)
-  const { error } = await supabase
-    .from('pieces')
-    .update({ date: aujourd_hui })
-    .eq('id', id)
-
+  const { error } = await supabase.from('pieces').update({ date: aujourd_hui }).eq('id', id)
   if (error) { console.error('Erreur update:', error); return }
-
-  const list = document.getElementById('pieceList')
-  list.innerHTML = ''
+  document.getElementById('pieceList').innerHTML = ''
   charger()
 }
 
 async function supprimerPiece(btn, id) {
-  const { error } = await supabase
-    .from('pieces')
-    .delete()
-    .eq('id', id)
-
+  const { error } = await supabase.from('pieces').delete().eq('id', id)
   if (error) { console.error('Erreur suppression:', error); return }
   btn.closest('li').remove()
 }
@@ -110,6 +98,7 @@ async function charger() {
   const { data, error } = await supabase
     .from('pieces')
     .select('*')
+    .eq('user_id', USER_ID)
     .order('id', { ascending: false })
 
   if (error) { console.error('Erreur chargement:', error); return }
@@ -121,9 +110,8 @@ window.marquerFait = marquerFait
 window.supprimerPiece = supprimerPiece
 
 charger()
+
 document.getElementById('btn-deconnexion').addEventListener('click', function(e) {
   e.preventDefault()
-  supabase.auth.signOut().then(() => {
-    window.location.href = 'accueil.html'
-  })
+  supabase.auth.signOut().then(() => { window.location.href = 'accueil.html' })
 })
