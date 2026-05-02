@@ -15,6 +15,7 @@ body {
   display: flex;
   flex-direction: column;
   color: #e0e8d8;
+   overflow-x: hidden;  
 }
 /* HEADER */
 .header {
@@ -387,12 +388,14 @@ li {
   padding: 0 8px;
 }
 
+.nav {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+}
+
 .nav a {
-  font-size: 11px;
-  padding: 3px 8px;
-}
-  }
-}
-body {
-  overflow-x: hidden;
+  font-size: 10px;
+  padding: 3px 6px;
 }
