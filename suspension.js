@@ -1,14 +1,15 @@
 import { supabase } from './supabase.js'
+
 const { data: { session } } = await supabase.auth.getSession()
 if (!session) {
-  window.location.href = 'accueil.html'
+  window.location.replace('accueil.html')
+  throw new Error('Non connecté')
 }
+const USER_ID = session.user.id
+
 async function sauvegarderSetup() {
   const nom = document.getElementById('setupNom').value.trim()
-  if (!nom) {
-    alert('Donne un nom à ce réglage !')
-    return
-  }
+  if (!nom) { alert('Donne un nom à ce réglage !'); return }
 
   const fModele = document.getElementById('fModele').value
   const aModele = document.getElementById('aModele').value
@@ -18,6 +19,7 @@ async function sauvegarderSetup() {
 
   const setup = {
     nom,
+    user_id: USER_ID,
     date: new Date().toLocaleDateString('fr-FR'),
     fourche_modele: fModele,
     fourche_sag: document.getElementById('fSag').value,
@@ -38,10 +40,7 @@ async function sauvegarderSetup() {
     .insert([setup])
     .select()
 
-  if (error) {
-    console.error('Erreur ajout setup:', error)
-    return
-  }
+  if (error) { console.error('Erreur ajout setup:', error); return }
 
   afficherSetup(data[0])
   document.getElementById('setupNom').value = ''
@@ -69,11 +68,7 @@ function afficherSetup(setup) {
 }
 
 async function supprimerSetup(btn, id) {
-  const { error } = await supabase
-    .from('setups')
-    .delete()
-    .eq('id', id)
-
+  const { error } = await supabase.from('setups').delete().eq('id', id)
   if (error) { console.error('Erreur suppression:', error); return }
   btn.parentElement.remove()
 }
@@ -82,6 +77,7 @@ async function charger() {
   const { data, error } = await supabase
     .from('setups')
     .select('*')
+    .eq('user_id', USER_ID)
     .order('id', { ascending: false })
 
   if (error) { console.error('Erreur chargement:', error); return }
@@ -92,9 +88,8 @@ window.sauvegarderSetup = sauvegarderSetup
 window.supprimerSetup = supprimerSetup
 
 charger()
+
 document.getElementById('btn-deconnexion').addEventListener('click', function(e) {
   e.preventDefault()
-  supabase.auth.signOut().then(() => {
-    window.location.href = 'accueil.html'
-  })
+  supabase.auth.signOut().then(() => { window.location.href = 'accueil.html' })
 })

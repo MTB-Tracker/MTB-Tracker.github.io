@@ -1,11 +1,17 @@
+import { supabase } from './supabase.js'
+
 const { data: { session } } = await supabase.auth.getSession()
 if (!session) {
-  window.location.href = 'accueil.html'
+  window.location.replace('accueil.html')
+  throw new Error('Non connecté')
 }
+const USER_ID = session.user.id
+
 let comps = []
 
 async function sauvegarderProfil() {
   const profil = {
+    user_id: USER_ID,
     nom: document.getElementById('profilNom').value.trim(),
     age: document.getElementById('profilAge').value,
     poids: document.getElementById('profilPoids').value,
@@ -13,19 +19,14 @@ async function sauvegarderProfil() {
     club: document.getElementById('profilClub').value.trim()
   }
 
-  const { error } = await supabase
-    .from('profil')
-    .upsert([{ id: 1, ...profil }])
-
-  if (error) {
-    console.error('Erreur profil:', error)
-    return
-  }
+  const { error } = await supabase.from('profil').upsert([profil], { onConflict: 'user_id' })
+  if (error) { console.error('Erreur profil:', error); return }
   alert('Profil sauvegardé ✓')
 }
 
 async function sauvegarderVelo() {
   const velo = {
+    user_id: USER_ID,
     velo_marque: document.getElementById('veloMarque').value.trim(),
     velo_taille: document.getElementById('veloTaille').value,
     velo_roues: document.getElementById('veloRoues').value,
@@ -33,23 +34,14 @@ async function sauvegarderVelo() {
     velo_notes: document.getElementById('veloNotes').value.trim()
   }
 
-  const { error } = await supabase
-    .from('profil')
-    .upsert([{ id: 1, ...velo }])
-
-  if (error) {
-    console.error('Erreur vélo:', error)
-    return
-  }
+  const { error } = await supabase.from('profil').upsert([velo], { onConflict: 'user_id' })
+  if (error) { console.error('Erreur vélo:', error); return }
   alert('Vélo sauvegardé ✓')
 }
 
 async function ajouterComp() {
   const nom = document.getElementById('compNom').value.trim()
-  if (!nom) {
-    alert('Indique le nom de la compétition !')
-    return
-  }
+  if (!nom) { alert('Indique le nom de la compétition !'); return }
 
   const comp = {
     nom,
@@ -59,7 +51,7 @@ async function ajouterComp() {
   }
 
   comps.push(comp)
-  localStorage.setItem('comps', JSON.stringify(comps))
+  localStorage.setItem('comps_' + USER_ID, JSON.stringify(comps))
   afficherComp(comp)
 
   document.getElementById('compNom').value = ''
@@ -85,7 +77,7 @@ async function charger() {
   const { data, error } = await supabase
     .from('profil')
     .select('*')
-    .eq('id', 1)
+    .eq('user_id', USER_ID)
     .single()
 
   if (!error && data) {
@@ -101,12 +93,10 @@ async function charger() {
     if (data.velo_notes) document.getElementById('veloNotes').value = data.velo_notes
   }
 
-  const compsData = localStorage.getItem('comps')
+  const compsData = localStorage.getItem('comps_' + USER_ID)
   if (compsData) {
     comps = JSON.parse(compsData)
-    comps.forEach(function(comp) {
-      afficherComp(comp)
-    })
+    comps.forEach(function(comp) { afficherComp(comp) })
   }
 }
 
@@ -115,9 +105,8 @@ window.sauvegarderVelo = sauvegarderVelo
 window.ajouterComp = ajouterComp
 
 charger()
+
 document.getElementById('btn-deconnexion').addEventListener('click', function(e) {
   e.preventDefault()
-  supabase.auth.signOut().then(() => {
-    window.location.href = 'accueil.html'
-  })
+  supabase.auth.signOut().then(() => { window.location.href = 'accueil.html' })
 })

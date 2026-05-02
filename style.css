@@ -382,7 +382,9 @@ li {
     grid-template-columns: 1fr;
     .nav {
   flex-wrap: wrap;
+  justify-content: center;
   gap: 4px;
+  padding: 0 8px;
 }
 
 .nav a {
@@ -390,4 +392,7 @@ li {
   padding: 3px 8px;
 }
   }
+}
+body {
+  overflow-x: hidden;
 }
