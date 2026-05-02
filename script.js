@@ -5,10 +5,18 @@ if (!session) {
   throw new Error('Non connecté')
 }
 async function charger() {
+  const { data: { session } } = await supabase.auth.getSession()
+  const userId = session.user.id
+  console.log('User ID:', userId)
+
   const { data, error } = await supabase
     .from('sorties')
     .select('*')
+    .eq('user_id', userId)
     .order('id', { ascending: false })
+
+  console.log('Sorties:', data)
+  console.log('Erreur:', error)
 
   if (error) {
     console.error('Erreur chargement:', error)
@@ -19,10 +27,13 @@ async function charger() {
     afficherRide(ride)
   })
 
-  mettreAJourStats(data)
+  mettreAJourStats()
 }
 
 async function addRide() {
+  const { data: { session } } = await supabase.auth.getSession()
+  const userId = session.user.id
+
   const lieu = document.getElementById('rideInput').value.trim()
   const date = document.getElementById('rideDate').value
   const type = document.getElementById('rideType').value
@@ -36,7 +47,7 @@ async function addRide() {
 
   const { data, error } = await supabase
     .from('sorties')
-    .insert([{ lieu, date, type, deniv, notes }])
+    .insert([{ lieu, date, type, deniv, notes, user_id: userId }])
     .select()
 
   if (error) {
@@ -45,7 +56,7 @@ async function addRide() {
   }
 
   afficherRide(data[0])
-  mettreAJourStats(null)
+  mettreAJourStats()
 
   document.getElementById('rideInput').value = ''
   document.getElementById('rideDate').value = ''
