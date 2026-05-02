@@ -96,9 +96,13 @@ function afficherRide(ride) {
 }
 
 async function mettreAJourStats() {
+  const { data: { session } } = await supabase.auth.getSession()
+  const userId = session.user.id
+
   const { data, error } = await supabase
     .from('sorties')
     .select('*')
+    .eq('user_id', userId)
 
   if (error) return
 
