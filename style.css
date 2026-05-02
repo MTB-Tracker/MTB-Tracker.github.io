@@ -379,23 +379,45 @@ li {
   }
 }
 @media (max-width: 600px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  .header {
+    padding: 12px 8px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px;
+    width: 100%;
+  }
+
+  .nav a {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
   .grid-layout {
     grid-template-columns: 1fr;
-    .nav {
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 4px;
-  padding: 0 8px;
-}
+  }
 
-.nav {
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 4px;
-  padding: 4px 8px;
-}
+  .container {
+    padding: 16px 12px;
+  }
 
-.nav a {
-  font-size: 10px;
-  padding: 3px 6px;
+  .form-card {
+    padding: 16px;
+  }
+
+  .stat-val {
+    font-size: 16px;
+  }
+
+  .stat-item {
+    padding: 12px 10px;
+  }
 }
