@@ -115,3 +115,9 @@ window.sauvegarderVelo = sauvegarderVelo
 window.ajouterComp = ajouterComp
 
 charger()
+document.getElementById('btn-deconnexion').addEventListener('click', function(e) {
+  e.preventDefault()
+  supabase.auth.signOut().then(() => {
+    window.location.href = 'accueil.html'
+  })
+})

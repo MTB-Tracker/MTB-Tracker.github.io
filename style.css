@@ -380,5 +380,14 @@ li {
 @media (max-width: 600px) {
   .grid-layout {
     grid-template-columns: 1fr;
+    .nav {
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.nav a {
+  font-size: 11px;
+  padding: 3px 8px;
+}
   }
 }
