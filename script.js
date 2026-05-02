@@ -1,7 +1,8 @@
 import { supabase } from './supabase.js'
 const { data: { session } } = await supabase.auth.getSession()
 if (!session) {
-  window.location.href = 'accueil.html'
+  window.location.replace('accueil.html')
+  throw new Error('Non connecté')
 }
 async function charger() {
   const { data, error } = await supabase
