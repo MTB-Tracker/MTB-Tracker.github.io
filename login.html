@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VTT Tracker — Connexion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <h1>VTT Tracker 🚵</h1>
+  </header>
+
+  <main class="container">
+    <div class="form-card" style="max-width:360px;margin:60px auto;text-align:center">
+      <h2>Connexion</h2>
+      <p style="color:#7a9a6a;font-size:14px;margin-bottom:24px">Connecte-toi pour accéder à ton tracker</p>
+      <button onclick="loginGoogle()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:12px">
+        <img src="https://www.google.com/favicon.ico" width="18" height="18">
+        Continuer avec Google
+      </button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Made for riders ⛰️</p>
+  </footer>
+
+  <script type="module">
+    import { supabase } from './supabase.js'
+
+    async function loginGoogle() {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: 'https://chadyoyo.github.io/MTB-Tracker/index.html'
+        }
+      })
+      if (error) console.error('Erreur login:', error)
+    }
+
+    window.loginGoogle = loginGoogle
+
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session) {
+      window.location.href = 'index.html'
+    }
+  </script>
+
+</body>
+</html>
