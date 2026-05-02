@@ -103,10 +103,14 @@ async function mettreAJourStats() {
 
 window.addRide = addRide
 window.supprimerRide = supprimerRide
+
 async function deconnexion() {
   await supabase.auth.signOut()
-  window.location.href = 'login.html'
+  window.location.href = 'accueil.html'
 }
 
-window.deconnexion = deconnexion
+document.getElementById('btn-deconnexion').addEventListener('click', function(e) {
+  e.preventDefault()
+  deconnexion()
+})
 charger()
