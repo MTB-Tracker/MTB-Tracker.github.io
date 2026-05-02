@@ -1,5 +1,8 @@
 import { supabase } from './supabase.js'
-
+const { data: { session } } = await supabase.auth.getSession()
+if (!session) {
+  window.location.href = 'accueil.html'
+}
 async function charger() {
   const { data, error } = await supabase
     .from('sorties')
@@ -100,5 +103,10 @@ async function mettreAJourStats() {
 
 window.addRide = addRide
 window.supprimerRide = supprimerRide
+async function deconnexion() {
+  await supabase.auth.signOut()
+  window.location.href = 'login.html'
+}
 
+window.deconnexion = deconnexion
 charger()

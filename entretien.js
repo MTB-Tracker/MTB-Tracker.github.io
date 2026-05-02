@@ -1,5 +1,8 @@
 import { supabase } from './supabase.js'
-
+const { data: { session } } = await supabase.auth.getSession()
+if (!session) {
+  window.location.href = 'accueil.html'
+}
 async function ajouterPiece() {
   const nom = document.getElementById('pieceNom').value.trim()
   if (!nom) { alert('Indique le nom de la pièce !'); return }
