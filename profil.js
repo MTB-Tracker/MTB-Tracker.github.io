@@ -44,15 +44,21 @@ async function ajouterComp() {
   if (!nom) { alert('Indique le nom de la compétition !'); return }
 
   const comp = {
+    user_id: USER_ID,
     nom,
     date: document.getElementById('compDate').value,
     classement: document.getElementById('compClassement').value.trim(),
     notes: document.getElementById('compNotes').value.trim()
   }
 
-  comps.push(comp)
-  localStorage.setItem('comps_' + USER_ID, JSON.stringify(comps))
-  afficherComp(comp)
+  const { data, error } = await supabase
+    .from('competitions')
+    .insert([comp])
+    .select()
+
+  if (error) { console.error('Erreur ajout comp:', error); return }
+
+  afficherComp(data[0])
 
   document.getElementById('compNom').value = ''
   document.getElementById('compDate').value = ''
@@ -63,14 +69,23 @@ async function ajouterComp() {
 function afficherComp(comp) {
   const list = document.getElementById('compList')
   const li = document.createElement('li')
-  li.style.cssText = 'background:rgba(255,255,255,0.05);border-radius:6px;padding:10px;margin-bottom:8px;'
+  li.style.cssText = 'background:rgba(255,255,255,0.05);border-radius:6px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;'
   li.innerHTML = `
-    <span class="ride-lieu">${comp.nom}</span>
-    <span class="ride-detail">${comp.date ? comp.date : ''}</span>
-    <span class="ride-type" style="margin-top:4px">${comp.classement ? comp.classement : ''}</span>
-    ${comp.notes ? `<span class="ride-detail">${comp.notes}</span>` : ''}
+    <div>
+      <span class="ride-lieu">${comp.nom}</span>
+      <span class="ride-detail">${comp.date ? comp.date : ''}</span>
+      <span class="ride-type" style="margin-top:4px">${comp.classement ? comp.classement : ''}</span>
+      ${comp.notes ? `<span class="ride-detail">${comp.notes}</span>` : ''}
+    </div>
+    <button class="btn-delete" onclick="supprimerComp(this, '${comp.id}')">❌</button>
   `
   list.appendChild(li)
+}
+
+async function supprimerComp(btn, id) {
+  const { error } = await supabase.from('competitions').delete().eq('id', id)
+  if (error) { console.error('Erreur suppression:', error); return }
+  btn.closest('li').remove()
 }
 
 async function charger() {
@@ -93,16 +108,21 @@ async function charger() {
     if (data.velo_notes) document.getElementById('veloNotes').value = data.velo_notes
   }
 
-  const compsData = localStorage.getItem('comps_' + USER_ID)
-  if (compsData) {
-    comps = JSON.parse(compsData)
-    comps.forEach(function(comp) { afficherComp(comp) })
+  const { data: compsData, error: compsError } = await supabase
+    .from('competitions')
+    .select('*')
+    .eq('user_id', USER_ID)
+    .order('id', { ascending: false })
+
+  if (!compsError && compsData) {
+    compsData.forEach(function(comp) { afficherComp(comp) })
   }
 }
 
 window.sauvegarderProfil = sauvegarderProfil
 window.sauvegarderVelo = sauvegarderVelo
 window.ajouterComp = ajouterComp
+window.supprimerComp = supprimerComp
 
 charger()
 
