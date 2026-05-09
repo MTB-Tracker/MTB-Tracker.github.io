@@ -86,21 +86,6 @@
     </div>
   </footer>
 
-  <<script type="module">
-  import { supabase } from './supabase.js'
-  import { initDeconnexion } from './auth.js'
-
-  const { data: { session } } = await supabase.auth.getSession()
-  const btnConnexion = document.getElementById('btn-connexion')
-  const btnDeconnexion = document.getElementById('btn-deconnexion')
-
-  if (session) {
-    btnConnexion.textContent = 'Accéder au tracker'
-    btnConnexion.href = 'index.html'
-    btnDeconnexion.style.display = 'block'
-  }
-
-  initDeconnexion()
-</script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
