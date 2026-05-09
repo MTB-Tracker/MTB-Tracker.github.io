@@ -8,17 +8,16 @@
 </head>
 <body>
   <header class="header">
-  <div class="header-brand">
-    <img src="logo.png" alt="MTB Tracker" class="header-logo">
-    <span class="header-title">MTB TRACKER</span>
-  </div>
-</header>
+    <div class="header-brand">
+      <img src="logo.jpg" alt="MTB Tracker" class="header-logo">
+      <span class="header-title">MTB TRACKER</span>
+    </div>
+  </header>
 
   <main class="container">
     <div class="form-card" style="max-width:500px;margin:60px auto;text-align:center">
 
-      <!-- LOGO EN GRAND dans la card -->
-      <img src="logo.jpg" alt="MTB Tracker" style="width:140px;height:140px;object-fit:cover;border-radius:16px;margin-bottom:20px;box-shadow:0 4px 24px rgba(0,0,0,0.5)">
+      <img src="logo.jpg" alt="MTB Tracker" style="width:140px;height:140px;object-fit:contain;margin-bottom:20px;">
 
       <h2>Bienvenue sur MTB Tracker</h2>
       <p style="color:#7a9a6a;font-size:14px;line-height:1.7;margin:16px 0">L'outil de gestion pour riders — suis tes sorties, tes réglages suspension et l'entretien de ton vélo.</p>
@@ -34,12 +33,71 @@
   </main>
 
   <footer class="footer">
-  <p>Made for riders ⛰️</p>
-  <div class="footer-brand">
-    <img src="logo.jpg" alt="MTB Tracker">
-    <span>MTB TRACKER</span>
-  </div>
-</footer
+    <p>Made for riders ⛰️</p>
+    <div class="footer-brand">
+      <img src="logo.jpg" alt="MTB Tracker">
+      <span>MTB TRACKER</span>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { supabase } from './supabase.js'
+    import { initDeconnexion } from './auth.js'
+
+    const { data: { session } } = await supabase.auth.getSession()
+    const btnConnexion = document.getElementById('btn-connexion')
+    const btnDeconnexion = document.getElementById('btn-deconnexion')
+
+    if (session) {
+      btnConnexion.textContent = 'Accéder au tracker'
+      btnConnexion.href = 'index.html'
+      btnDeconnexion.style.display = 'block'
+    }
+
+    initDeconnexion()
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTB Tracker — Accueil</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-brand">
+      <img src="logo.png" alt="MTB Tracker" class="header-logo">
+      <span class="header-title">MTB TRACKER</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="form-card" style="max-width:500px;margin:60px auto;text-align:center">
+
+      <img src="logo.png" alt="MTB Tracker" style="width:140px;height:140px;object-fit:contain;margin-bottom:20px;">
+
+      <h2>Bienvenue sur MTB Tracker</h2>
+      <p style="color:#7a9a6a;font-size:14px;line-height:1.7;margin:16px 0">L'outil de gestion pour riders — suis tes sorties, tes réglages suspension et l'entretien de ton vélo.</p>
+
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px">
+        <a id="btn-connexion" href="login.html" style="display:block;padding:12px;background:rgba(126,200,80,0.1);border:1px solid #4a8a1a;border-radius:8px;color:#7ec850;text-decoration:none;font-weight:500">Se connecter</a>
+        <a href="confidentialite.html" style="font-size:12px;color:#6a8a5a;text-decoration:none">Politique de confidentialité</a>
+        <a href="conditions.html" style="font-size:12px;color:#6a8a5a;text-decoration:none">Conditions d'utilisation</a>
+      </div>
+
+      <button id="btn-deconnexion" style="margin-top:24px;display:none">Déconnexion</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Made for riders ⛰️</p>
+    <div class="footer-brand">
+      <img src="logo.jpg" alt="MTB Tracker">
+      <span>MTB TRACKER</span>
+    </div>
+  </footer>
 
   <script type="module">
     import { supabase } from './supabase.js'
