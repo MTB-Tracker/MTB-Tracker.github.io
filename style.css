@@ -30,16 +30,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 90px;
+  height: 80px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .header-logo {
-  height: 70px;
-  width: 70px;
+  height: 64px;
+  width: 64px;
   object-fit: contain;
 }
 
-.header h1 {
+.header-title {
   font-size: 22px;
   font-weight: 700;
   color: #7ec850;
@@ -47,10 +53,9 @@ body {
   text-transform: uppercase;
 }
 
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+/* Supprime l'ancien h1 dans le header */
+.header h1 {
+  display: none;
 }
 
 
@@ -360,29 +365,16 @@ li {
   color: #0d1f0a;
 }
 
-/* FOOTER */
 .footer {
-  padding: 24px 32px;
+  padding: 16px 32px;
   background-color: rgba(6, 14, 4, 0.97);
   border-top: 1px solid rgba(74, 138, 26, 0.3);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 90px;
+  height: 80px;
 }
 
-.footer-brand img {
-  height: 60px;
-  width: 60px;
-  object-fit: contain;
-}
-
-.footer-brand span {
-  font-size: 14px;
-  color: rgba(126, 200, 80, 0.3);
-  letter-spacing: 3px;
-  font-weight: 700;
-}
 .footer p {
   font-size: 11px;
   color: #3a5a2a;
@@ -392,23 +384,28 @@ li {
 }
 
 .footer::after {
-  content: '';
-  font-size: 11px;
-  color: rgba(126, 200, 80, 0.2);
-  letter-spacing: 3px;
-  font-weight: 700;
+  content: none;
 }
+
 .footer-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
-
-/* Supprime l'ancien texte MTB TRACKER fantôme */
-.footer::after {
-  content: none;
+.footer-brand img {
+  height: 52px;
+  width: 52px;
+  object-fit: contain;
 }
+
+.footer-brand span {
+  font-size: 13px;
+  color: rgba(126, 200, 80, 0.3);
+  letter-spacing: 3px;
+  font-weight: 700;
+}
+
 
 
 /* RESPONSIVE */
