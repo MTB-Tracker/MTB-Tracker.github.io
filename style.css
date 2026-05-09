@@ -41,6 +41,18 @@ body {
   text-transform: uppercase;
   white-space: nowrap;
 }
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo {
+  height: 42px;
+  width: 42px;
+  object-fit: contain;
+  border-radius: 8px;
+}
 
 .nav {
   display: flex;
@@ -368,12 +380,36 @@ li {
 }
 
 .footer::after {
-  content: 'MTB TRACKER';
+  content: '';
   font-size: 11px;
   color: rgba(126, 200, 80, 0.2);
   letter-spacing: 3px;
   font-weight: 700;
 }
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-brand img {
+  height: 28px;
+  width: 28px;
+  object-fit: contain;
+}
+
+.footer-brand span {
+  font-size: 11px;
+  color: rgba(126, 200, 80, 0.3);
+  letter-spacing: 3px;
+  font-weight: 700;
+}
+
+/* Supprime l'ancien texte MTB TRACKER fantôme */
+.footer::after {
+  content: none;
+}
+
 
 /* RESPONSIVE */
 @media (max-width: 600px) {
