@@ -16,7 +16,7 @@
       <a href="entretien.html" class="active">Entretien</a>
       <a href="profil.html">Profil</a>
       <a href="accueil.html">Accueil</a>
-      <a href="#" id="btn-deconnexion">Déconnexion</a>
+      <button id="btn-deconnexion" onclick="deconnexion()">Déconnexion</button>
     </nav>
   </header>
 
@@ -26,14 +26,12 @@
       <div class="grid-col">
         <div class="form-card">
           <h2>Ajouter une pièce</h2>
-
           <div class="form-group">
-            <label for="pieceNom">Nom de la pièce</label>
+            <label>Nom de la pièce</label>
             <input id="pieceNom" type="text" placeholder="ex: Plaquettes Magura MT5">
           </div>
-
           <div class="form-group">
-            <label for="pieceCategorie">Catégorie</label>
+            <label>Catégorie</label>
             <select id="pieceCategorie">
               <option>Freins</option>
               <option>Suspension</option>
@@ -43,9 +41,8 @@
               <option>Autre</option>
             </select>
           </div>
-
           <div class="form-group">
-            <label for="pieceFrequence">Fréquence d'entretien</label>
+            <label>Fréquence d'entretien</label>
             <select id="pieceFrequence">
               <option>Avant chaque ride</option>
               <option>Toutes les 2 semaines</option>
@@ -55,17 +52,14 @@
               <option>Annuel</option>
             </select>
           </div>
-
           <div class="form-group">
-            <label for="pieceDate">Date du dernier entretien</label>
+            <label>Date du dernier entretien</label>
             <input id="pieceDate" type="date">
           </div>
-
           <div class="form-group">
-            <label for="pieceNotes">Notes</label>
+            <label>Notes</label>
             <input id="pieceNotes" type="text" placeholder="Marque, référence, observations...">
           </div>
-
           <button onclick="ajouterPiece()">Ajouter</button>
         </div>
       </div>

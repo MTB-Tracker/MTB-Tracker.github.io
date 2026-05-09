@@ -1,65 +1,55 @@
 import { supabase } from './supabase.js'
+import { verifierSession, initDeconnexion } from './auth.js'
+import { escapeHtml } from './escapeHtml.js'
 
-const { data: { session } } = await supabase.auth.getSession()
-if (!session) {
-  window.location.replace('accueil.html')
-  throw new Error('Non connecté')
-}
-const USER_ID = session.user.id
-
-let comps = []
+const USER_ID = await verifierSession()
+if (!USER_ID) throw new Error('Non connecté')
+initDeconnexion()
 
 async function sauvegarderProfil() {
   const profil = {
     user_id: USER_ID,
-    nom: document.getElementById('profilNom').value.trim(),
-    age: document.getElementById('profilAge').value,
-    poids: document.getElementById('profilPoids').value,
+    nom: document.getElementById('profilNom').value.trim() || null,
+    age: document.getElementById('profilAge').value !== '' ? parseInt(document.getElementById('profilAge').value) : null,
+    poids: document.getElementById('profilPoids').value !== '' ? parseFloat(document.getElementById('profilPoids').value) : null,
     categorie: document.getElementById('profilCategorie').value,
-    club: document.getElementById('profilClub').value.trim()
+    club: document.getElementById('profilClub').value.trim() || null,
+    // Vélo inclus pour éviter l'écrasement lors d'un upsert séparé
+    velo_marque: document.getElementById('veloMarque').value.trim() || null,
+    velo_taille: document.getElementById('veloTaille').value,
+    velo_roues: document.getElementById('veloRoues').value,
+    velo_debattement: document.getElementById('veloDebattement').value !== '' ? parseFloat(document.getElementById('veloDebattement').value) : null,
+    velo_notes: document.getElementById('veloNotes').value.trim() || null
   }
-
   const { error } = await supabase.from('profil').upsert([profil], { onConflict: 'user_id' })
   if (error) { console.error('Erreur profil:', error); return }
   alert('Profil sauvegardé ✓')
 }
 
-async function sauvegarderVelo() {
-  const velo = {
-    user_id: USER_ID,
-    velo_marque: document.getElementById('veloMarque').value.trim(),
-    velo_taille: document.getElementById('veloTaille').value,
-    velo_roues: document.getElementById('veloRoues').value,
-    velo_debattement: document.getElementById('veloDebattement').value,
-    velo_notes: document.getElementById('veloNotes').value.trim()
-  }
-
-  const { error } = await supabase.from('profil').upsert([velo], { onConflict: 'user_id' })
-  if (error) { console.error('Erreur vélo:', error); return }
-  alert('Vélo sauvegardé ✓')
-}
+// sauvegarderVelo fait exactement la même chose — on délègue à sauvegarderProfil
+// pour éviter deux upserts séparés qui peuvent se marcher dessus
+const sauvegarderVelo = sauvegarderProfil
 
 async function ajouterComp() {
   const nom = document.getElementById('compNom').value.trim()
   if (!nom) { alert('Indique le nom de la compétition !'); return }
 
+  const btn = document.querySelector('button[onclick="ajouterComp()"]')
+  if (btn) btn.disabled = true
+
   const comp = {
     user_id: USER_ID,
     nom,
-    date: document.getElementById('compDate').value,
-    classement: document.getElementById('compClassement').value.trim(),
-    notes: document.getElementById('compNotes').value.trim()
+    date: document.getElementById('compDate').value || null,
+    classement: document.getElementById('compClassement').value.trim() || null,
+    notes: document.getElementById('compNotes').value.trim() || null
   }
 
-  const { data, error } = await supabase
-    .from('competitions')
-    .insert([comp])
-    .select()
-
+  const { data, error } = await supabase.from('competitions').insert([comp]).select()
+  if (btn) btn.disabled = false
   if (error) { console.error('Erreur ajout comp:', error); return }
 
   afficherComp(data[0])
-
   document.getElementById('compNom').value = ''
   document.getElementById('compDate').value = ''
   document.getElementById('compClassement').value = ''
@@ -67,19 +57,18 @@ async function ajouterComp() {
 }
 
 function afficherComp(comp) {
-  const list = document.getElementById('compList')
   const li = document.createElement('li')
-  li.style.cssText = 'background:rgba(255,255,255,0.05);border-radius:6px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;'
+  li.className = 'comp-item'
   li.innerHTML = `
     <div>
-      <span class="ride-lieu">${comp.nom}</span>
-      <span class="ride-detail">${comp.date ? comp.date : ''}</span>
-      <span class="ride-type" style="margin-top:4px">${comp.classement ? comp.classement : ''}</span>
-      ${comp.notes ? `<span class="ride-detail">${comp.notes}</span>` : ''}
+      <span class="ride-lieu">${escapeHtml(comp.nom)}</span>
+      <span class="ride-detail">${escapeHtml(comp.date) || ''}</span>
+      <span class="ride-type">${escapeHtml(comp.classement) || ''}</span>
+      ${comp.notes ? `<span class="ride-detail">${escapeHtml(comp.notes)}</span>` : ''}
     </div>
-    <button class="btn-delete" onclick="supprimerComp(this, '${comp.id}')">❌</button>
+    <button class="btn-delete" onclick="supprimerComp(this, '${escapeHtml(String(comp.id))}')">❌</button>
   `
-  list.appendChild(li)
+  document.getElementById('compList').appendChild(li)
 }
 
 async function supprimerComp(btn, id) {
@@ -89,35 +78,32 @@ async function supprimerComp(btn, id) {
 }
 
 async function charger() {
-  const { data, error } = await supabase
-    .from('profil')
-    .select('*')
-    .eq('user_id', USER_ID)
-    .maybeSingle()
+  const { data: profData } = await supabase
+    .from('profil').select('*').eq('user_id', USER_ID).maybeSingle()
 
-  if (data) {
-    if (data.nom) document.getElementById('profilNom').value = data.nom
-    if (data.age) document.getElementById('profilAge').value = data.age
-    if (data.poids) document.getElementById('profilPoids').value = data.poids
-    if (data.categorie) document.getElementById('profilCategorie').value = data.categorie
-    if (data.club) document.getElementById('profilClub').value = data.club
-    if (data.velo_marque) document.getElementById('veloMarque').value = data.velo_marque
-    if (data.velo_taille) document.getElementById('veloTaille').value = data.velo_taille
-    if (data.velo_roues) document.getElementById('veloRoues').value = data.velo_roues
-    if (data.velo_debattement) document.getElementById('veloDebattement').value = data.velo_debattement
-    if (data.velo_notes) document.getElementById('veloNotes').value = data.velo_notes
+  if (profData) {
+    const set = (id, val) => { if (val != null) document.getElementById(id).value = val }
+    set('profilNom', profData.nom)
+    set('profilAge', profData.age)
+    set('profilPoids', profData.poids)
+    set('profilCategorie', profData.categorie)
+    set('profilClub', profData.club)
+    set('veloMarque', profData.velo_marque)
+    set('veloTaille', profData.velo_taille)
+    set('veloRoues', profData.velo_roues)
+    set('veloDebattement', profData.velo_debattement)
+    set('veloNotes', profData.velo_notes)
   }
 
-  const { data: compsData, error: compsError } = await supabase
-    .from('competitions')
-    .select('*')
-    .eq('user_id', USER_ID)
-    .order('id', { ascending: false })
+  const { data: compsData } = await supabase
+    .from('competitions').select('*').eq('user_id', USER_ID).order('id', { ascending: false })
 
-  if (!compsError && compsData) {
-    compsData.forEach(function(comp) { afficherComp(comp) })
-  }
+  if (compsData) compsData.forEach(comp => afficherComp(comp))
 }
+
+// Style inline retiré — ajouter dans style.css :
+// .comp-item { background: rgba(255,255,255,0.05); border-radius: 6px; padding: 10px;
+//              margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-start; }
 
 window.sauvegarderProfil = sauvegarderProfil
 window.sauvegarderVelo = sauvegarderVelo
@@ -125,8 +111,3 @@ window.ajouterComp = ajouterComp
 window.supprimerComp = supprimerComp
 
 charger()
-
-document.getElementById('btn-deconnexion').addEventListener('click', function(e) {
-  e.preventDefault()
-  supabase.auth.signOut().then(() => { window.location.href = 'accueil.html' })
-})

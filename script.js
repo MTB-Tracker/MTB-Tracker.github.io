@@ -1,59 +1,43 @@
 import { supabase } from './supabase.js'
-const { data: { session } } = await supabase.auth.getSession()
-if (!session) {
-  window.location.replace('accueil.html')
-  throw new Error('Non connecté')
-}
-async function charger() {
-  const { data: { session } } = await supabase.auth.getSession()
-  const userId = session.user.id
-  console.log('User ID:', userId)
+import { verifierSession, initDeconnexion } from './auth.js'
+import { escapeHtml } from './escapeHtml.js'
 
+const USER_ID = await verifierSession()
+if (!USER_ID) throw new Error('Non connecté')
+initDeconnexion()
+
+async function charger() {
   const { data, error } = await supabase
     .from('sorties')
     .select('*')
-    .eq('user_id', userId)
-    .order('id', { ascending: false })
+    .eq('user_id', USER_ID)
+    .order('date', { ascending: false })
 
-  console.log('Sorties:', data)
-  console.log('Erreur:', error)
-
-  if (error) {
-    console.error('Erreur chargement:', error)
-    return
-  }
-
-  data.forEach(function(ride) {
-    afficherRide(ride)
-  })
-
+  if (error) { console.error('Erreur chargement:', error); return }
+  data.forEach(ride => afficherRide(ride))
   mettreAJourStats()
 }
 
 async function addRide() {
-  const { data: { session } } = await supabase.auth.getSession()
-  const userId = session.user.id
-
   const lieu = document.getElementById('rideInput').value.trim()
-  const date = document.getElementById('rideDate').value
-  const type = document.getElementById('rideType').value
-  const deniv = document.getElementById('rideDeniv').value
-  const notes = document.getElementById('rideNotes').value.trim()
+  if (!lieu) { alert('Indique au moins un lieu !'); return }
 
-  if (!lieu) {
-    alert('Indique au moins un lieu !')
-    return
+  const btn = document.querySelector('button[onclick="addRide()"]')
+  if (btn) btn.disabled = true
+
+  const denivRaw = document.getElementById('rideDeniv').value
+  const ride = {
+    lieu,
+    date: document.getElementById('rideDate').value || null,
+    type: document.getElementById('rideType').value,
+    deniv: denivRaw !== '' ? parseFloat(denivRaw) : null,
+    notes: document.getElementById('rideNotes').value.trim() || null,
+    user_id: USER_ID
   }
 
-  const { data, error } = await supabase
-    .from('sorties')
-    .insert([{ lieu, date, type, deniv, notes, user_id: userId }])
-    .select()
-
-  if (error) {
-    console.error('Erreur ajout:', error)
-    return
-  }
+  const { data, error } = await supabase.from('sorties').insert([ride]).select()
+  if (btn) btn.disabled = false
+  if (error) { console.error('Erreur ajout:', error); return }
 
   afficherRide(data[0])
   mettreAJourStats()
@@ -65,68 +49,44 @@ async function addRide() {
 }
 
 async function supprimerRide(btn, id) {
-  const { error } = await supabase
-    .from('sorties')
-    .delete()
-    .eq('id', id)
-
-  if (error) {
-    console.error('Erreur suppression:', error)
-    return
-  }
-
-  btn.parentElement.remove()
-  mettreAJourStats(null)
+  const { error } = await supabase.from('sorties').delete().eq('id', id)
+  if (error) { console.error('Erreur suppression:', error); return }
+  btn.closest('li').remove()
+  mettreAJourStats()
 }
 
 function afficherRide(ride) {
-  const list = document.getElementById('rideList')
   const li = document.createElement('li')
   li.innerHTML = `
     <div class="ride-info">
-      <span class="ride-lieu">${ride.lieu}</span>
-      <span class="ride-type">${ride.type}</span>
-      <span class="ride-detail">${ride.date ? ride.date : 'Date non renseignée'}</span>
-      <span class="ride-detail">${ride.deniv ? ride.deniv + ' m D+' : ''}</span>
-      <span class="ride-detail">${ride.notes}</span>
+      <span class="ride-lieu">${escapeHtml(ride.lieu)}</span>
+      <span class="ride-type">${escapeHtml(ride.type)}</span>
+      <span class="ride-detail">${escapeHtml(ride.date) || 'Date non renseignée'}</span>
+      <span class="ride-detail">${ride.deniv ? escapeHtml(String(ride.deniv)) + ' m D+' : ''}</span>
+      <span class="ride-detail">${escapeHtml(ride.notes)}</span>
     </div>
-    <button class="btn-delete" onclick="supprimerRide(this, '${ride.id}')">❌</button>
+    <button class="btn-delete" onclick="supprimerRide(this, '${escapeHtml(String(ride.id))}')">❌</button>
   `
-  list.appendChild(li)
+  document.getElementById('rideList').appendChild(li)
 }
 
 async function mettreAJourStats() {
-  const { data: { session } } = await supabase.auth.getSession()
-  const userId = session.user.id
-
   const { data, error } = await supabase
     .from('sorties')
     .select('*')
-    .eq('user_id', userId)
+    .eq('user_id', USER_ID)
+    .order('date', { ascending: false })
 
   if (error) return
 
-  const nb = data.length
-  const denivTotal = data.reduce(function(total, ride) {
-    return total + (parseFloat(ride.deniv) || 0)
-  }, 0)
-  const derniere = data.length > 0 ? data[0].lieu : '—'
+  const denivTotal = data.reduce((total, ride) => total + (parseFloat(ride.deniv) || 0), 0)
 
-  document.getElementById('statNb').textContent = nb
+  document.getElementById('statNb').textContent = data.length
   document.getElementById('statDeniv').textContent = denivTotal + ' m'
-  document.getElementById('statDerniere').textContent = derniere
+  document.getElementById('statDerniere').textContent = data.length > 0 ? escapeHtml(data[0].lieu) : '—'
 }
 
 window.addRide = addRide
 window.supprimerRide = supprimerRide
 
-async function deconnexion() {
-  await supabase.auth.signOut()
-  window.location.href = 'accueil.html'
-}
-
-document.getElementById('btn-deconnexion').addEventListener('click', function(e) {
-  e.preventDefault()
-  deconnexion()
-})
 charger()

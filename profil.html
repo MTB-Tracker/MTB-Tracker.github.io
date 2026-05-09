@@ -16,7 +16,6 @@
       <a href="entretien.html">Entretien</a>
       <a href="profil.html" class="active">Profil</a>
       <a href="accueil.html">Accueil</a>
-      <a href="#" id="btn-deconnexion">Déconnexion</a>
     </nav>
   </header>
 
@@ -27,19 +26,19 @@
         <div class="form-card">
           <h2>Mon profil</h2>
           <div class="form-group">
-            <label for="profilNom">Nom / Pseudo</label>
+            <label>Nom / Pseudo</label>
             <input id="profilNom" type="text" placeholder="ex: ChadYOYO">
           </div>
           <div class="form-group">
-            <label for="profilAge">Âge</label>
+            <label>Âge</label>
             <input id="profilAge" type="number" placeholder="ex: 15">
           </div>
           <div class="form-group">
-            <label for="profilPoids">Poids avec équipement (kg)</label>
+            <label>Poids avec équipement (kg)</label>
             <input id="profilPoids" type="number" placeholder="ex: 62">
           </div>
           <div class="form-group">
-            <label for="profilCategorie">Catégorie compétition</label>
+            <label>Catégorie compétition</label>
             <select id="profilCategorie">
               <option>U17</option>
               <option>U19</option>
@@ -51,7 +50,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="profilClub">Club</label>
+            <label>Club</label>
             <input id="profilClub" type="text" placeholder="ex: MTB Club Montceau">
           </div>
           <button onclick="sauvegarderProfil()">Sauvegarder</button>
@@ -60,11 +59,11 @@
         <div class="form-card">
           <h2>Mon vélo</h2>
           <div class="form-group">
-            <label for="veloMarque">Marque / Modèle</label>
+            <label>Marque / Modèle</label>
             <input id="veloMarque" type="text" placeholder="ex: Giant Reign 2022">
           </div>
           <div class="form-group">
-            <label for="veloTaille">Taille cadre</label>
+            <label>Taille cadre</label>
             <select id="veloTaille">
               <option>XS</option>
               <option>S</option>
@@ -74,7 +73,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="veloRoues">Taille roues</label>
+            <label>Taille roues</label>
             <select id="veloRoues">
               <option>27.5"</option>
               <option>29"</option>
@@ -82,11 +81,11 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="veloDebattement">Débattement (mm)</label>
+            <label>Débattement (mm)</label>
             <input id="veloDebattement" type="number" placeholder="ex: 170">
           </div>
           <div class="form-group">
-            <label for="veloNotes">Specs / Upgrades</label>
+            <label>Specs / Upgrades</label>
             <textarea id="veloNotes" rows="3" placeholder="ex: Fourche Zeb, freins Magura MT5..."></textarea>
           </div>
           <button onclick="sauvegarderVelo()">Sauvegarder</button>
@@ -97,19 +96,19 @@
         <div class="form-card">
           <h2>Mes compétitions</h2>
           <div class="form-group">
-            <label for="compNom">Nom de la compétition</label>
+            <label>Nom de la compétition</label>
             <input id="compNom" type="text" placeholder="ex: TRJV Autun DH">
           </div>
           <div class="form-group">
-            <label for="compDate">Date</label>
+            <label>Date</label>
             <input id="compDate" type="date">
           </div>
           <div class="form-group">
-            <label for="compClassement">Classement</label>
+            <label>Classement</label>
             <input id="compClassement" type="text" placeholder="ex: 22e / 45">
           </div>
           <div class="form-group">
-            <label for="compNotes">Notes</label>
+            <label>Notes</label>
             <input id="compNotes" type="text" placeholder="Conditions, ressenti...">
           </div>
           <button onclick="ajouterComp()">Ajouter</button>
@@ -124,6 +123,6 @@
     <p>Made for riders ⛰️</p>
   </footer>
 
- <script type="module" src="profil.js"></script>
+  <script type="module" src="profil.js"></script>
 </body>
 </html>

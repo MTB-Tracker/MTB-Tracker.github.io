@@ -421,3 +421,41 @@ li {
     padding: 12px 10px;
   }
 }
+#btn-deconnexion {
+  background: none;
+  border: 1px solid transparent;
+  color: #8aab7a;
+  font-size: 13px;
+  padding: 5px 14px;
+  cursor: pointer;
+  border-radius: 20px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+#btn-deconnexion:hover {
+  color: #7ec850;
+  border-color: #3a7a1a;
+  background-color: rgba(126, 200, 80, 0.08);
+}
+.piece-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.piece-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-left: 12px;
+}
+
+.comp-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}

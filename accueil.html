@@ -6,18 +6,6 @@
   <title>MTB Tracker — Accueil</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<script type="module">
-  import { supabase } from './supabase.js'
-
-  const { data: { session } } = await supabase.auth.getSession()
-  
-  const btnConnexion = document.getElementById('btn-connexion')
-  
-  if (session) {
-    btnConnexion.textContent = 'Accéder au tracker'
-    btnConnexion.href = 'index.html'
-  }
-</script>
 <body>
   <header class="header">
     <h1>MTB Tracker 🚵</h1>
@@ -29,15 +17,34 @@
       <p style="color:#7a9a6a;font-size:14px;line-height:1.7;margin:16px 0">L'outil de gestion pour riders — suis tes sorties, tes réglages suspension et l'entretien de ton vélo.</p>
 
       <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px">
- <a id="btn-connexion" href="login.html" style="display:block;padding:12px;background:rgba(126,200,80,0.1);border:1px solid #4a8a1a;border-radius:8px;color:#7ec850;text-decoration:none;font-weight:500">Se connecter</a>
-  <a href="confidentialite.html" style="font-size:12px;color:#6a8a5a;text-decoration:none">Politique de confidentialité</a>
-  <a href="conditions.html" style="font-size:12px;color:#6a8a5a;text-decoration:none">Conditions d'utilisation</a>
-</div>
+        <a id="btn-connexion" href="login.html" style="display:block;padding:12px;background:rgba(126,200,80,0.1);border:1px solid #4a8a1a;border-radius:8px;color:#7ec850;text-decoration:none;font-weight:500">Se connecter</a>
+        <a href="confidentialite.html" style="font-size:12px;color:#6a8a5a;text-decoration:none">Politique de confidentialité</a>
+        <a href="conditions.html" style="font-size:12px;color:#6a8a5a;text-decoration:none">Conditions d'utilisation</a>
+      </div>
+
+      <button id="btn-deconnexion" style="margin-top:24px;display:none">Déconnexion</button>
     </div>
   </main>
 
   <footer class="footer">
     <p>Made for riders ⛰️</p>
   </footer>
+
+  <script type="module">
+    import { supabase } from './supabase.js'
+    import { initDeconnexion } from './auth.js'
+
+    const { data: { session } } = await supabase.auth.getSession()
+    const btnConnexion = document.getElementById('btn-connexion')
+    const btnDeconnexion = document.getElementById('btn-deconnexion')
+
+    if (session) {
+      btnConnexion.textContent = 'Accéder au tracker'
+      btnConnexion.href = 'index.html'
+      btnDeconnexion.style.display = 'block'
+    }
+
+    initDeconnexion()
+  </script>
 </body>
 </html>
