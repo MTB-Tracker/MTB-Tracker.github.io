@@ -429,20 +429,15 @@ li {
     padding: 4px 10px;
   }
 }
-@media (max-width: 600px) {
-  html, body {
-    overflow-x: hidden;
-    width: 100%;
-  }
 
-  .header {
-  padding: 0 12px;
-  height: 52px;
-  flex-wrap: wrap;
-  height: auto;
-  padding: 10px 12px;
-  gap: 8px;
-}
+  @media (max-width: 600px) {
+    body {
+      background-position: 70% center; /* décale l'image à droite ou gauche */
+      /* ou carrément une autre image : */
+      background-image: url('bgm.jpg');
+    }
+  }
+</style>
 
 .header-brand {
   display: flex;
