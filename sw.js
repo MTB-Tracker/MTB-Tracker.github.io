@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mtb-tracker-v1'
+const CACHE_NAME = 'mtb-tracker-v2'
 const FILES = [
   '/accueil.html',
   '/index.html',
