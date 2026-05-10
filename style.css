@@ -446,8 +446,8 @@ li {
 }
 
 .header-logo {
-  height: 42px;
-  width: 42px;
+  height: 80px;
+  width: 80px;
   object-fit: cover;
   border-radius: 8px;
 }
