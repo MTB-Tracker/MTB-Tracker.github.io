@@ -11,7 +11,18 @@
     background-image: url('bg3.jpg');
   }
 </style>
+<meta name="google-site-verification" content="sdfgmRwAXBdIyWOY48q4LtJS29CmY3h9Tvc1OF7Moio" />
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#7ec850">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MTB Tracker">
+<link rel="apple-touch-icon" href="logo.jpg">
 </head>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+  }
+</script>
 <body>
   <header class="header">
   <div class="header-brand" style="justify-content:flex-start">

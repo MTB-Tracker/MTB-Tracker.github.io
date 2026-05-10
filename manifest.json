@@ -1,0 +1,17 @@
+{
+  "name": "MTB Tracker",
+  "short_name": "MTB Tracker",
+  "description": "Suis tes sorties, réglages suspension et entretien de ton vélo.",
+  "start_url": "/accueil.html",
+  "display": "standalone",
+  "background_color": "#0d1f0a",
+  "theme_color": "#7ec850",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo.jpg",
+      "sizes": "918x918",
+      "type": "image/jpeg"
+    }
+  ]
+}
